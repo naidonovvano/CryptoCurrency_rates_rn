@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ccrates"
@@ -20,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "package": "com.ccrates"
     },
     "web": {
       "favicon": "./assets/circle.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "30472549-33a1-4aec-96af-5039d754969e"
+      }
     }
   }
 }
