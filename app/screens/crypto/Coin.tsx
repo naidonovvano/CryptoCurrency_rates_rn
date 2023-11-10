@@ -47,7 +47,7 @@ export const Coin: FC<ICryptoProps> = ({
           },
         ]}
       >
-        <Text style={gStyles.coinsPrice}>{price.toFixed(4)}</Text>
+        <Text style={gStyles.coinsPrice}>{price.toFixed(2)}</Text>
       </View>
     </View>
   );

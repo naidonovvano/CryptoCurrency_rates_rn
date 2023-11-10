@@ -1,9 +1,4 @@
-import {
-  StyleSheet,
-  Platform,
-  StatusBar,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Platform, StatusBar, Dimensions } from "react-native";
 import { AppConstants } from "./app/app.constants";
 
 const { width } = Dimensions.get("window");
@@ -130,14 +125,18 @@ export const gStyles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Arimo",
   },
+  cryptoContainer: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   coinsCard: {
-    width: "45%",
+    width: "40%",
     backgroundColor: AppConstants.primary,
     padding: 10,
     margin: 10,
     borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "space-around",
   },
   coinsSection: {
     flex: 1,
@@ -241,7 +240,7 @@ export const gStyles = StyleSheet.create({
   pickerContainer: {
     backgroundColor: AppConstants.primary_dark,
     padding: 10,
-    marginHorizontal: 10,
+    margin: 10,
     borderRadius: 30,
   },
   pickerLabel: {

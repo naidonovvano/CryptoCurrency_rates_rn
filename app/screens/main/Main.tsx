@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { gStyles } from "../../../style";
 import { routes } from "../../navigation/routes";
-import { IMain } from "./main.types";
+import type { IMain } from "./main.types";
 
 export const Main: FC<IMain> = ({ navigation }) => {
   return (

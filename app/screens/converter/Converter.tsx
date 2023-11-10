@@ -1,93 +1,31 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import { View, Text } from "react-native";
 import { gStyles } from "../../../style";
-import type { ICoin } from "../market/market.types";
 import { AppConstants } from "../../app.constants";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
 import type { IResult } from "./converter.types";
+import { useFetchMarket } from "../market/useFetchMarket";
+import { useFetchCrypto } from "../crypto/useFetchCrypto";
+import { Loader } from "../../ui/Loader";
+import { useFetchResult } from "./useFetchResult";
 
 export const Converter: FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [coins, setCoin] = useState([]);
-  const [fiats, setFiats] = useState([]);
-  const [exchanges, setExchanges] = useState([]);
-  const [selectedFrom, setSelectedFrom] = useState("");
-  const [selectedTo, setSelectedTo] = useState("");
-  const [selectedExchange, setSelectedExchange] = useState("");
-  const [result, setResult] = useState([]);
-
-  useEffect(() => {
-    fetchCoins();
-    if (selectedFrom !== "") fetchFiats();
-    if (selectedTo !== "") fetchExchanges();
-    if (selectedFrom !== "" && selectedTo !== "" && selectedExchange !== "")
-      getResult(selectedFrom, selectedTo, selectedExchange);
-  }, [selectedFrom, selectedTo, selectedExchange]);
-
-  const fetchCoins = async () => {
-    try {
-      const response = await fetch(`https://api.coinstats.app/public/v1/coins`);
-      const json = await response.json();
-      const coins = json.coins.map((coin: ICoin) => coin.symbol);
-      setCoin(coins);
-    } catch (error) {
-      console.error(error);
-      alert("Error: Failed to fetch");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const fetchFiats = async () => {
-    try {
-      const response = await fetch(`https://api.coinstats.app/public/v1/fiats`);
-      const json = await response.json();
-      const names = json.map((fiat: { name: string }) => fiat.name);
-      setFiats(names);
-    } catch (error) {
-      console.error(error);
-      alert("Error: Failed to fetch");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const fetchExchanges = async () => {
-    try {
-      const response = await fetch(
-        `https://api.coinstats.app/public/v1/exchanges`
-      );
-      const json = await response.json();
-      const exchanges = json.supportedExchanges.map((item: string) =>
-        item.toLowerCase()
-      );
-      setExchanges(exchanges);
-    } catch (error) {
-      console.error(error);
-      alert("Error: Failed to fetch");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const getResult = async (
-    from: string,
-    to: string,
-    exchange: string
-  ): Promise<void> => {
-    try {
-      const response = await fetch(
-        `https://api.coinstats.app/public/v1/tickers?exchange=${exchange}&pair=${from}-${to}`
-      );
-      const json = await response.json();
-      setResult(json.tickers);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { exchangeUpperCase, coinSymbol } = useFetchMarket();
+  const { fiats } = useFetchCrypto();
+  const {
+    isLoading,
+    result,
+    selectedFrom,
+    setSelectedFrom,
+    selectedTo,
+    setSelectedTo,
+    selectedExchange,
+    setSelectedExchange,
+  } = useFetchResult();
 
   return isLoading ? (
-    <Text>Loading...</Text>
+    <Loader />
   ) : (
     <View style={gStyles.converterContainer}>
       <Text style={[gStyles.mainText, { padding: 0, margin: 0 }]}>
@@ -99,7 +37,7 @@ export const Converter: FC = () => {
             <Text style={gStyles.converterText}>From</Text>
             <SelectList
               setSelected={(val: string) => setSelectedFrom(val)}
-              data={coins}
+              data={coinSymbol}
               placeholder={"From crypto coin..."}
               boxStyles={{ backgroundColor: AppConstants.primary, height: 50 }}
               inputStyles={gStyles.pickerInput}
@@ -170,7 +108,7 @@ export const Converter: FC = () => {
             <Text style={gStyles.converterText}>Exchange</Text>
             <SelectList
               setSelected={(val: string) => setSelectedExchange(val)}
-              data={exchanges}
+              data={exchangeUpperCase}
               placeholder={"Select exchange..."}
               boxStyles={{ backgroundColor: AppConstants.primary, height: 50 }}
               inputStyles={gStyles.pickerInput}

@@ -17,3 +17,8 @@ export interface ICryptoProps {
 export interface IFiat {
   name: string;
 }
+export interface ICryptoHeaderProps {
+  fiats: never[];
+  selectedFiat: string;
+  setSelectedFiat: (arg: string) => void;
+}

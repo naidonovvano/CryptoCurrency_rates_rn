@@ -1,52 +1,26 @@
-import React, { FC, useState, useEffect } from "react";
-import { gStyles } from "../../../style";
+import React from "react";
 import {
-  FlatList,
   Text,
-  RefreshControl,
   View,
+  FlatList,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
+import { useFetchNews } from "./useFetchNews";
+import { gStyles } from "../../../style";
 import { NewsSection } from "./NewsSection";
-import { INews } from "./news.types";
+import { Loader } from "../../ui/Loader";
 
-export const News: FC = () => {
-  const [page, setPage] = useState(0);
-  const [news, setNews] = useState<INews[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (page <= 0) fetchNews(page); // API has only 20 news :(
-  }, [page]);
-
-  const fetchNews = async (skip: number): Promise<void> => {
-    try {
-      const response = await fetch(
-        `https://api.coinstats.app/public/v1/news/trending?${skip}=0&limit=20`
-      );
-      const json = await response.json();
-      setNews([...news, ...json.news]);
-    } catch (error) {
-      console.error(error);
-      alert("Error: Failed to fetch");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const loadItems = () => {
-    setPage((prev) => prev + 1);
-  };
+export const News = () => {
+  const { isLoading, news, loadItems, onRefresh } = useFetchNews();
 
   return isLoading ? (
-    <Text>Loading...</Text>
+    <Loader />
   ) : (
     <View style={gStyles.container}>
       <FlatList
         refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={() => fetchNews(0)}
-          />
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
         }
         data={news}
         keyExtractor={(item) => item.id + Math.random()}
@@ -66,7 +40,7 @@ export const News: FC = () => {
           <NewsSection
             id={item.id}
             title={item.title}
-            imgURL={item.imgURL}
+            imgUrl={item.imgUrl}
             source={item.source}
           />
         )}

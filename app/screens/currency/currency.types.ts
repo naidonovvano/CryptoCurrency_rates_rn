@@ -13,3 +13,9 @@ export interface ICurrencyProps {
   imageUrl: string;
   symbol: string;
 }
+
+export interface ICurrencyHeaderProps {
+  handleSort: () => void;
+  buttonTitle: string;
+  buttonColor: string;
+}
