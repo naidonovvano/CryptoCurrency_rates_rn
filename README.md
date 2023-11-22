@@ -18,9 +18,9 @@ The application will be useful for those working in the currency markets and bus
 
 ## Installation and Launch
 
-To run this application, you need to have the EXPO app on your device. To download it, visit the App Store or Google Play. After installing EXPO, launch [this](exp://exp.host/@naidonovvano/ccrates?release-channel=default) link on your device or scan the QR code available at [main](https://expo.dev/@naidonovvano/ccrates) link.
+To run this application, you need to have the EXPO app on your device. To download it, visit the App Store or Google Play. After installing EXPO scan the QR code available at [main](https://expo.dev/@naidonovvano/ccrates) link.
 
-To install `Crypto&Currency Rates and Exchange app`, follow these steps:
+To install __Crypto&Currency Rates and Exchange app__, follow these steps:
 
 * Download this repository
 * Open the folder in your IDE and install the necessary packages using 
