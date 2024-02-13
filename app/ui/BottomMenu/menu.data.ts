@@ -3,7 +3,7 @@ import { IMenuItem } from "./menu.types";
 export const menuData: IMenuItem[] = [
   {
     path: "Main",
-    iconName: "md-home-outline",
+    iconName: "home",
   },
   {
     path: "News",
